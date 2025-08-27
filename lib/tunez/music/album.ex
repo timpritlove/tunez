@@ -57,4 +57,8 @@ defmodule Tunez.Music.Album do
       message: "must be a valid URL"
 
   end
+
+  identities do
+    identity :unique_album_names_per_artist, [:name, :artist_id], message: "already exists for this artist"
+  end
 end
