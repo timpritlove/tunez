@@ -4,6 +4,9 @@ defmodule Tunez.Music.Album do
   postgres do
     table "albums"
     repo Tunez.Repo
+    references do
+      reference :artist, index?: true
+    end
   end
 
   relationships do
