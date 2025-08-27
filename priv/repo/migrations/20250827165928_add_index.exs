@@ -1,4 +1,4 @@
-defmodule Tunez.Repo.Migrations.CreateAlbums do
+defmodule Tunez.Repo.Migrations.AddIndex do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
