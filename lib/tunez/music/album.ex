@@ -43,4 +43,18 @@ defmodule Tunez.Music.Album do
       accept [:name, :year_released, :cover_image_url]
     end
   end
+
+
+  def next_year, do:  Date.utc_today().year + 1
+
+  validations do
+    validate numericality(:year_released, greater_than: 1900, less_than_or_equal_to: &__MODULE__.next_year/0),
+      where: [present(:year_released)],
+      message: "must be between 1900 and next year"
+
+    validate match(:cover_image_url, ~r/^(\/[\w\.-]+.*|(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?)$/),
+      where: [present(:cover_image_url)],
+      message: "must be a valid URL"
+
+  end
 end
