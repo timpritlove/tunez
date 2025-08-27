@@ -27,6 +27,7 @@ defmodule Tunez.Music.Album do
     end
 
     attribute :cover_image_url, :string
+
     create_timestamp :inserted_at
     update_timestamp :updated_at
   end
