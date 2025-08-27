@@ -7,8 +7,9 @@ defmodule Tunez.Music.Album do
   end
 
   relationships do
-    belongs_to :artist, Tunez.Music.Artist
-    allow_nil? false
+    belongs_to :artist, Tunez.Music.Artist do
+      allow_nil? false
+    end
   end
 
   attributes do
