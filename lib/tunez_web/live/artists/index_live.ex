@@ -15,7 +15,9 @@ defmodule TunezWeb.Artists.IndexLive do
     query_text = Map.get(params, "q", "")
     sort_by = Map.get(params, "sort_by") |> validate_sort_by()
     page_params = AshPhoenix.LiveView.page_from_params(params, 12)
-    page = Tunez.Music.search_artists!(query_text, page: page_params, query: [sort_input: sort_by])
+
+    page =
+      Tunez.Music.search_artists!(query_text, page: page_params, query: [sort_input: sort_by])
 
     socket =
       socket
@@ -35,7 +37,7 @@ defmodule TunezWeb.Artists.IndexLive do
           <.sort_changer selected={@sort_by} />
         </:action>
         <:action>
-          <.search_box query={@query_text} method="get" data-role="artist-search" phx-submit="search"/>
+          <.search_box query={@query_text} method="get" data-role="artist-search" phx-submit="search" />
         </:action>
         <:action>
           <.button_link navigate={~p"/artists/new"} kind="primary">
@@ -110,16 +112,26 @@ defmodule TunezWeb.Artists.IndexLive do
 
   def pagination_links(assigns) do
     ~H"""
-    <div :if={AshPhoenix.LiveView.prev_page?(@page) ||
-      AshPhoenix.LiveView.next_page?(@page)}
-      class="flex justify-center pt-8 space-x-4">
-
-      <.button_link data-role="previous-page" kind="primary" inverse
+    <div
+      :if={
+        AshPhoenix.LiveView.prev_page?(@page) ||
+          AshPhoenix.LiveView.next_page?(@page)
+      }
+      class="flex justify-center pt-8 space-x-4"
+    >
+      <.button_link
+        data-role="previous-page"
+        kind="primary"
+        inverse
         patch={~p"/?#{query_string(@page, @query_text, @sort_by, "prev")}"}
-        disabled={!AshPhoenix.LiveView.prev_page?(@page)} >
+        disabled={!AshPhoenix.LiveView.prev_page?(@page)}
+      >
         « Previous
       </.button_link>
-      <.button_link data-role="next-page" kind="primary" inverse
+      <.button_link
+        data-role="next-page"
+        kind="primary"
+        inverse
         patch={~p"/?#{query_string(@page, @query_text, @sort_by, "next")}"}
         disabled={!AshPhoenix.LiveView.next_page?(@page)}
       >

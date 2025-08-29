@@ -135,8 +135,9 @@ defmodule TunezWeb.Albums.FormLive do
           socket
           |> put_flash(:error, "Failed to save album")
           |> assign(:form, form)
-          {:noreply, socket}
-        end
+
+        {:noreply, socket}
+    end
   end
 
   def handle_event("add-track", _params, socket) do

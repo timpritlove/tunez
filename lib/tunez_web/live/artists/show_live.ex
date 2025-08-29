@@ -143,7 +143,9 @@ defmodule TunezWeb.Artists.ShowLive do
   def handle_event("destroy-artist", _params, socket) do
     case Tunez.Music.destroy_artist(socket.assigns.artist) do
       :ok ->
-        socket = socket |> put_flash(:info, "Artist deleted successfully") |> push_navigate(to: ~p"/")
+        socket =
+          socket |> put_flash(:info, "Artist deleted successfully") |> push_navigate(to: ~p"/")
+
         {:noreply, socket}
 
       {:error, error} ->
@@ -156,9 +158,15 @@ defmodule TunezWeb.Artists.ShowLive do
   def handle_event("destroy-album", %{"id" => album_id}, socket) do
     case Tunez.Music.destroy_album(album_id) do
       :ok ->
-        socket = socket
-        |> update(:artist, fn artist -> Map.update!(artist, :albums, fn albums -> Enum.reject(albums, fn album -> album.id == album_id end) end) end)
-        |> put_flash(:info, "Album deleted successfully")
+        socket =
+          socket
+          |> update(:artist, fn artist ->
+            Map.update!(artist, :albums, fn albums ->
+              Enum.reject(albums, fn album -> album.id == album_id end)
+            end)
+          end)
+          |> put_flash(:info, "Album deleted successfully")
+
         {:noreply, socket}
 
       {:error, error} ->
