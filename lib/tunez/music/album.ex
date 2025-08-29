@@ -61,4 +61,8 @@ defmodule Tunez.Music.Album do
   identities do
     identity :unique_album_names_per_artist, [:name, :artist_id], message: "already exists for this artist"
   end
+
+  calculations do
+    calculate :years_ago, :integer, expr(2025 - year_released)
+  end
 end

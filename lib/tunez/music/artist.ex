@@ -56,5 +56,11 @@ defmodule Tunez.Music.Artist do
 
     destroy :destroy do
     end
+
+    calculations do
+      calculate :album_count, :integer, expr(count(albums))
+      calculate :latest_album_year, :integer, expr(max(albums.year_released))
+      calculate :cover_image_url, :string, expr(first(albums, field: :cover_image_url))
+    end
   end
 end
