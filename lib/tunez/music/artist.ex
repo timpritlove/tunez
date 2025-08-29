@@ -5,9 +5,14 @@ defmodule Tunez.Music.Artist do
     data_layer: AshPostgres.DataLayer,
     extensions: [AshJsonApi.Resource]
 
+  resource do
+    description "An person or group of people makes and releases music"
+  end
+
   json_api do
     type "artist"
     includes [:albums]
+    derive_filter? false
   end
 
   postgres do
@@ -29,9 +34,11 @@ defmodule Tunez.Music.Artist do
     end
 
     read :search do
+      description "Search for artists by name, optionally filtering by name"
       argument :query, :ci_string do
         constraints allow_empty?: true
         default ""
+        description "Return only with names including the given value"
       end
 
       filter expr(contains(name, ^arg(:query)))
