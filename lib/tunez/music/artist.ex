@@ -1,33 +1,21 @@
 defmodule Tunez.Music.Artist do
-  use Ash.Resource, otp_app: :tunez, domain: Tunez.Music, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    otp_app: :tunez,
+    domain: Tunez.Music,
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshJsonApi.Resource]
+
+  json_api do
+    type "artist"
+  end
 
   postgres do
     table "artists"
     repo Tunez.Repo
+
     custom_indexes do
       index "name gin_trgm_ops", name: "artists_name_gin_index", using: "GIN"
     end
-  end
-
-  relationships do
-    has_many :albums, Tunez.Music.Album do
-      sort year_released: :desc
-    end
-  end
-
-  attributes do
-    uuid_primary_key :id
-    attribute :name, :string do
-      allow_nil? false
-      public? true
-    end
-    attribute :previous_names, {:array, :string} do
-      default []
-    end
-    attribute :biography, :string
-
-    create_timestamp :inserted_at, public?: true
-    update_timestamp :updated_at, public?: true
   end
 
   actions do
@@ -44,6 +32,7 @@ defmodule Tunez.Music.Artist do
         constraints allow_empty?: true
         default ""
       end
+
       filter expr(contains(name, ^arg(:query)))
       pagination offset?: true, default_limit: 12
     end
@@ -58,6 +47,30 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  attributes do
+    uuid_primary_key :id
+
+    attribute :name, :string do
+      allow_nil? false
+      public? true
+    end
+
+    attribute :previous_names, {:array, :string} do
+      default []
+    end
+
+    attribute :biography, :string
+
+    create_timestamp :inserted_at, public?: true
+    update_timestamp :updated_at, public?: true
+  end
+
+  relationships do
+    has_many :albums, Tunez.Music.Album do
+      sort year_released: :desc
+    end
+  end
+
   calculations do
     # calculate :album_count, :integer, expr(count(albums))
     # calculate :latest_album_year, :integer, expr(max(albums.year_released))
@@ -68,10 +81,11 @@ defmodule Tunez.Music.Artist do
     count :album_count, :albums do
       public? true
     end
+
     max :latest_album_year_released, :albums, :year_released do
       public? true
     end
+
     first :cover_image_url, :albums, :cover_image_url
   end
-
 end
