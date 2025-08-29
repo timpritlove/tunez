@@ -3,10 +3,10 @@ defmodule Tunez.Music.Artist do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshJsonApi.Resource]
+    extensions: [AshGraphql.Resource, AshJsonApi.Resource]
 
-  resource do
-    description "An person or group of people makes and releases music"
+  graphql do
+    type :artist
   end
 
   json_api do
@@ -24,6 +24,10 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  resource do
+    description "An person or group of people makes and releases music"
+  end
+
   actions do
     create :create do
       accept [:name, :biography]
@@ -35,6 +39,7 @@ defmodule Tunez.Music.Artist do
 
     read :search do
       description "Search for artists by name, optionally filtering by name"
+
       argument :query, :ci_string do
         constraints allow_empty?: true
         default ""
