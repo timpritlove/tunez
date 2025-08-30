@@ -73,7 +73,8 @@ defmodule Tunez.MixProject do
       {:dns_cluster, "~> 0.2"},
       {:bandit, "~> 1.5"},
       {:igniter, "~> 0.3", only: [:dev]},
-      {:phoenix_test, "~> 0.7.0", only: :test, runtime: false}
+      {:phoenix_test, "~> 0.7.0", only: :test, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 
