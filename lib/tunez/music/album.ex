@@ -7,7 +7,6 @@ defmodule Tunez.Music.Album do
 
   graphql do
     type :album
-
   end
 
   json_api do

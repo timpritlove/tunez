@@ -20,7 +20,6 @@ defmodule Tunez.Music do
       update Tunez.Music.Album, :update_album, :update
       destroy Tunez.Music.Album, :destroy_album, :destroy
     end
-
   end
 
   json_api do
