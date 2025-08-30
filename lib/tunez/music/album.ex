@@ -3,7 +3,12 @@ defmodule Tunez.Music.Album do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshJsonApi.Resource]
+    extensions: [AshGraphql.Resource, AshJsonApi.Resource]
+
+  graphql do
+    type :album
+
+  end
 
   json_api do
     type "album"
@@ -46,6 +51,8 @@ defmodule Tunez.Music.Album do
              message: "must be a valid URL"
   end
 
+  def next_year, do: Date.utc_today().year + 1
+
   attributes do
     uuid_primary_key :id
 
@@ -66,8 +73,6 @@ defmodule Tunez.Music.Album do
     create_timestamp :inserted_at
     update_timestamp :updated_at
   end
-
-  def next_year, do: Date.utc_today().year + 1
 
   relationships do
     belongs_to :artist, Tunez.Music.Artist do

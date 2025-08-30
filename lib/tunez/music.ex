@@ -14,6 +14,13 @@ defmodule Tunez.Music do
       update Tunez.Music.Artist, :update_artist, :update
       destroy Tunez.Music.Artist, :destroy_artist, :destroy
     end
+
+    mutations do
+      create Tunez.Music.Album, :create_album, :create
+      update Tunez.Music.Album, :update_album, :update
+      destroy Tunez.Music.Album, :destroy_album, :destroy
+    end
+
   end
 
   json_api do
