@@ -41,7 +41,13 @@ defmodule TunezWeb.Router do
       #
       # If an authenticated user must *not* be present:
       # on_mount {TunezWeb.LiveUserAuth, :live_no_user}
-    end
+      live "/", Artists.IndexLive
+      live "/artists/new", Artists.FormLive, :new
+      live "/artists/:id", Artists.ShowLive
+      live "/artists/:id/edit", Artists.FormLive, :edit
+      live "/artists/:artist_id/albums/new", Albums.FormLive, :new
+      live "/albums/:id/edit", Albums.FormLive, :edit
+      end
   end
 
   scope "/gql" do
@@ -68,12 +74,6 @@ defmodule TunezWeb.Router do
   scope "/", TunezWeb do
     pipe_through :browser
 
-    live "/", Artists.IndexLive
-    live "/artists/new", Artists.FormLive, :new
-    live "/artists/:id", Artists.ShowLive
-    live "/artists/:id/edit", Artists.FormLive, :edit
-    live "/artists/:artist_id/albums/new", Albums.FormLive, :new
-    live "/albums/:id/edit", Albums.FormLive, :edit
     auth_routes AuthController, Tunez.Accounts.User, path: "/auth"
     sign_out_route AuthController
 
