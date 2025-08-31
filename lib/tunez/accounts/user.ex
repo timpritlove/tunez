@@ -270,6 +270,11 @@ defmodule Tunez.Accounts.User do
 
       run AshAuthentication.Strategy.MagicLink.Request
     end
+
+    update :set_role do
+      accept [:role]
+    end
+
   end
 
   policies do
@@ -295,6 +300,11 @@ defmodule Tunez.Accounts.User do
     end
 
     attribute :confirmed_at, :utc_datetime_usec
+
+    attribute :role, Tunez.Accounts.Role do
+      allow_nil? false
+      default :user
+    end
   end
 
   identities do
