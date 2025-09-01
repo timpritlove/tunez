@@ -274,7 +274,6 @@ defmodule Tunez.Accounts.User do
     update :set_role do
       accept [:role]
     end
-
   end
 
   policies do

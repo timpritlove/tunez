@@ -69,6 +69,25 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  policies do
+    policy action_type(:read) do
+      authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :admin)
+    end
+
+    policy action(:update) do
+      authorize_if actor_attribute_equals(:role, :admin)
+      authorize_if actor_attribute_equals(:role, :editor)
+    end
+
+    policy action(:destroy) do
+      authorize_if actor_attribute_equals(:role, :admin)
+    end
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -113,24 +132,5 @@ defmodule Tunez.Music.Artist do
     end
 
     first :cover_image_url, :albums, :cover_image_url
-  end
-
-  policies do
-    policy action_type(:read) do
-      authorize_if always()
-    end
-
-    policy action(:create) do
-      authorize_if actor_attribute_equals(:role, :admin)
-    end
-
-    policy action(:update) do
-      authorize_if actor_attribute_equals(:role, :admin)
-      authorize_if actor_attribute_equals(:role, :editor)
-    end
-
-    policy action(:destroy) do
-      authorize_if actor_attribute_equals(:role, :admin)
-    end
   end
 end
