@@ -50,7 +50,11 @@ defmodule TunezWeb.Artists.ShowLive do
       </.header>
       <div class="mb-6">{formatted(@artist.biography)}</div>
 
-      <.button_link :if={Tunez.Music.can_create_album?(@current_user, @artist)} navigate={~p"/artists/#{@artist.id}/albums/new"} kind="primary">
+      <.button_link
+        :if={Tunez.Music.can_create_album?(@current_user)}
+        navigate={~p"/artists/#{@artist.id}/albums/new"}
+        kind="primary"
+      >
         New Album
       </.button_link>
 
