@@ -4,26 +4,7 @@ defmodule Tunez.Music.Album do
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshGraphql.Resource, AshJsonApi.Resource],
-  authorizers: [Ash.Policy.Authorizer]
-
-  policies do
-    bypass actor_attribute_equals(:role, :admin) do
-      authorize_if always()
-    end
-
-    policy action(:read) do
-      authorize_if always()
-    end
-
-    policy action(:create) do
-      authorize_if actor_attribute_equals(:role, :editor)
-    end
-
-    policy action([:update, :destroy]) do
-      authorize_if expr(^actor(:role) == :editor and created_by_id == ^actor(:id))
-    end
-
-  end
+    authorizers: [Ash.Policy.Authorizer]
 
   graphql do
     type :album
@@ -51,6 +32,24 @@ defmodule Tunez.Music.Album do
 
     update :update do
       accept [:name, :year_released, :cover_image_url]
+    end
+  end
+
+  policies do
+    bypass actor_attribute_equals(:role, :admin) do
+      authorize_if always()
+    end
+
+    policy action(:read) do
+      authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :editor)
+    end
+
+    policy action([:update, :destroy]) do
+      authorize_if expr(^actor(:role) == :editor and created_by_id == ^actor(:id))
     end
   end
 
