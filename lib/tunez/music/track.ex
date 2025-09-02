@@ -76,6 +76,5 @@ defmodule Tunez.Music.Track do
   calculations do
     calculate :number, :integer, expr(order + 1)
     calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
-
   end
 end

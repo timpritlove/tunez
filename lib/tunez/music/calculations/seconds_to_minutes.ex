@@ -15,7 +15,8 @@ defmodule Tunez.Music.Calculations.SecondsToMinutes do
 
   @impl true
   def expression(_opts, _context) do
-    expr(fragment("? / 60 || to_char(? * interval '1s', ':SS')",
-    duration_seconds, duration_seconds))
+    expr(
+      fragment("? / 60 || to_char(? * interval '1s', ':SS')", duration_seconds, duration_seconds)
+    )
   end
 end
