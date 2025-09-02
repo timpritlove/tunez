@@ -18,12 +18,17 @@ defmodule Tunez.Music.Track do
     defaults [:read, :destroy]
 
     create :create do
-      accept [:order, :name, :duration_seconds, :album_id]
       primary? true
+      accept [:order, :name, :album_id]
+      argument :duration, :string, allow_nil?: false
+      change Tunez.Music.Changes.MinutesToSeconds, only_when_valid?: true
     end
 
     update :update do
-      accept [:order, :name, :duration_seconds]
+      accept [:order, :name]
+      require_atomic? false
+      argument :duration, :string, allow_nil?: false
+      change Tunez.Music.Changes.MinutesToSeconds, only_when_valid?: true
       primary? true
     end
   end
