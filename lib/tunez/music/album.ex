@@ -28,10 +28,15 @@ defmodule Tunez.Music.Album do
 
     create :create do
       accept [:name, :year_released, :cover_image_url, :artist_id]
+      argument :tracks, {:array, :map}
+      change manage_relationship(:tracks, type: :direct_control)
     end
 
     update :update do
       accept [:name, :year_released, :cover_image_url]
+      require_atomic? false
+      argument :tracks, {:array, :map}
+      change manage_relationship(:tracks, type: :direct_control)
     end
   end
 
@@ -58,8 +63,6 @@ defmodule Tunez.Music.Album do
     change relate_actor(:updated_by, allow_nil?: true)
   end
 
-  def next_year, do: Date.utc_today().year + 1
-
   validations do
     validate numericality(:year_released,
                greater_than: 1900,
@@ -75,6 +78,8 @@ defmodule Tunez.Music.Album do
              where: [present(:cover_image_url)],
              message: "must be a valid URL"
   end
+
+  def next_year, do: Date.utc_today().year + 1
 
   attributes do
     uuid_primary_key :id
@@ -95,6 +100,13 @@ defmodule Tunez.Music.Album do
 
     create_timestamp :inserted_at
     update_timestamp :updated_at
+  end
+
+  relationships do
+    has_many :tracks, Tunez.Music.Track do
+      sort order: :asc
+      public? true
+    end
   end
 
   relationships do
