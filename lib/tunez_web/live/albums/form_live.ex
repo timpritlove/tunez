@@ -5,7 +5,10 @@ defmodule TunezWeb.Albums.FormLive do
 
   def mount(%{"id" => album_id}, _session, socket) do
     album =
-      Tunez.Music.get_album_by_id!(album_id, load: [:artist], actor: socket.assigns.current_user)
+      Tunez.Music.get_album_by_id!(album_id,
+        load: [:artist, :tracks],
+        actor: socket.assigns.current_user
+      )
 
     form =
       Tunez.Music.form_to_update_album(album, actor: socket.assigns.current_user)
@@ -150,6 +153,11 @@ defmodule TunezWeb.Albums.FormLive do
   end
 
   def handle_event("add-track", _params, socket) do
+    socket =
+      update(socket, :form, fn form ->
+        AshPhoenix.Form.add_form(form, :tracks)
+      end)
+
     {:noreply, socket}
   end
 
