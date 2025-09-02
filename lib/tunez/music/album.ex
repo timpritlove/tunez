@@ -118,7 +118,12 @@ defmodule Tunez.Music.Album do
     belongs_to :updated_by, Tunez.Accounts.User
   end
 
+  aggregates do
+    sum :duration_seconds, :tracks, :duration_seconds
+  end
+
   calculations do
+    calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
     calculate :years_ago, :integer, expr(2025 - year_released)
   end
 

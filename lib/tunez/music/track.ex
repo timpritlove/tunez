@@ -36,7 +36,7 @@ defmodule Tunez.Music.Track do
   end
 
   preparations do
-    prepare build(load: [:number])
+    prepare build(load: [:number, :duration])
   end
 
   attributes do
@@ -70,5 +70,7 @@ defmodule Tunez.Music.Track do
 
   calculations do
     calculate :number, :integer, expr(order + 1)
+    calculate :duration, :string, Tunez.Music.Calculations.SecondsToMinutes
+
   end
 end
