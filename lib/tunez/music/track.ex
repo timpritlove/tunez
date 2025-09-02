@@ -10,6 +10,20 @@ defmodule Tunez.Music.Track do
     end
   end
 
+  actions do
+    defaults [:read, :destroy]
+
+    create :create do
+      accept [:order, :name, :duration_seconds, :album_id]
+      primary? true
+    end
+
+    update :update do
+      accept [:order, :name, :duration_seconds]
+      primary? true
+    end
+  end
+
   attributes do
     uuid_primary_key :id
 
