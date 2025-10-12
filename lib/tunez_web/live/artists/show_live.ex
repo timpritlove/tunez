@@ -29,8 +29,7 @@ defmodule TunezWeb.Artists.ShowLive do
         <.h1>
           {@artist.name}
           <.follow_toggle on={@artist.followed_by_me}>
-            :if={Tunez.Music.can_follow_artist?(@current_user, @artist)}
-            on={@artist.followed_by_me}
+            :if={Tunez.Music.can_follow_artist?(@current_user, @artist)} on={@artist.followed_by_me}
           </.follow_toggle>
         </.h1>
         <:subtitle :if={@artist.previous_names != []}>
@@ -206,11 +205,12 @@ defmodule TunezWeb.Artists.ShowLive do
     socket =
       case Tunez.Music.unfollow_artist(socket.assigns.artist, actor: socket.assigns.current_user) do
         :ok ->
-          update(socket, :artist, & %{&1 | followed_by_me: false})
+          update(socket, :artist, &%{&1 | followed_by_me: false})
 
         {:error, _} ->
           put_flash(socket, :error, "Could not unfollow artist")
       end
+
     {:noreply, socket}
   end
 end
