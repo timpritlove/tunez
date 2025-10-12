@@ -28,6 +28,14 @@ defmodule Tunez.Music.ArtistFollower do
 
       change relate_actor(:follower, allow_nil?: false)
     end
+
+    destroy :destroy do
+      argument :artist_id, :uuid do
+        allow_nil? false
+      end
+
+      change filter expr(artist_id == ^arg(:artist_id) && follower_id == ^actor(:id))
+    end
   end
 
   policies do
@@ -36,6 +44,10 @@ defmodule Tunez.Music.ArtistFollower do
     end
 
     policy action_type(:create) do
+      authorize_if actor_present()
+    end
+
+    policy action_type(:destroy) do
       authorize_if actor_present()
     end
   end
