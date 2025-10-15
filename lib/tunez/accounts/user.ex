@@ -200,6 +200,17 @@ defmodule Tunez.Accounts.User do
       run {AshAuthentication.Strategy.Password.RequestPasswordReset, action: :get_by_email}
     end
 
+    read :get_by_id do
+      description "Looks up a user by their id"
+      get? true
+
+      argument :id, :uuid do
+        allow_nil? false
+      end
+
+      filter expr(id == ^arg(:id))
+    end
+
     read :get_by_email do
       description "Looks up a user by their email"
       get? true
