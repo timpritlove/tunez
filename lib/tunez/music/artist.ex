@@ -135,8 +135,8 @@ defmodule Tunez.Music.Artist do
     calculate :followed_by_me,
               :boolean,
               expr(exists(follower_relationships, follower_id == ^actor(:id))) do
-                public? true
-              end
+      public? true
+    end
 
     # calculate :album_count, :integer, expr(count(albums))
     # calculate :latest_album_year, :integer, expr(max(albums.year_released))
